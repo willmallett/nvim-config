@@ -682,6 +682,8 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
+				"prettierd",
+				"eslint",
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -738,7 +740,7 @@ require("lazy").setup({
 				-- python = { "isort", "black" },
 				--
 				-- You can use 'stop_after_first' to run the first available formatter from the list
-				javascript = { "prettierd", "prettier", stop_after_first = true },
+				javascript = { "eslint", "prettierd", "prettier", stop_after_first = true },
 			},
 		},
 	},
@@ -861,7 +863,8 @@ require("lazy").setup({
 		end,
 	},
 
-	{ -- You can easily change to a different colorscheme.
+	-- Added color scheme to custom plugins
+	--[[ { -- You can easily change to a different colorscheme.
 		-- Change the name of the colorscheme plugin below, and then
 		-- change the command in the config to whatever the name of that colorscheme is.
 		--
@@ -881,7 +884,19 @@ require("lazy").setup({
 			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
 			vim.cmd.colorscheme("tokyonight-night")
 		end,
-	},
+	}, ]]
+
+	-- {
+	-- 	"catppuccin/nvim",
+	-- 	name = "catppuccin",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		require("catppuccin").setup({
+	-- 			flavour = "mocha", -- Choose your preferred flavor: latte, frappe, macchiato, mocha
+	-- 		})
+	-- 		vim.cmd.colorscheme("catppuccin")
+	-- 	end,
+	-- },
 
 	-- Highlight todo, notes, etc in comments
 	{
