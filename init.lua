@@ -177,9 +177,66 @@ require("lazy").setup({
 	"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
 	"MunifTanjim/nui.nvim",
 
-	-- navigating tmux
-
-	-- Git
+	{
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("harpoon"):setup()
+		end,
+		keys = {
+			{
+				"<leader>A",
+				function()
+					require("harpoon"):list():add()
+				end,
+				desc = "harpoon file",
+			},
+			{
+				"<leader>a",
+				function()
+					local harpoon = require("harpoon")
+					harpoon.ui:toggle_quick_menu(harpoon:list())
+				end,
+				desc = "harpoon quick menu",
+			},
+			{
+				"<leader>C",
+				function()
+					require("harpoon"):list():clear()
+				end,
+				desc = "clear harpoon list",
+			},
+			{
+				"<leader>X",
+				function()
+					require("harpoon"):list():remove()
+				end,
+				desc = "clear harpoon list",
+			},
+			{
+				"<leader>p",
+				function()
+					require("harpoon"):list():prev()
+				end,
+				desc = "harpoon to previous",
+			},
+			{
+				"<leader>n",
+				function()
+					require("harpoon"):list():next()
+				end,
+				desc = "harpoon to next",
+			},
+			{
+				"<leader>1",
+				function()
+					require("harpoon"):list():select(1)
+				end,
+				desc = "harpoon to file 1",
+			},
+		},
+	},
 
 	{
 		"tpope/vim-fugitive",
@@ -926,7 +983,7 @@ require("lazy").setup({
 			--  - va)  - [V]isually select [A]round [)]paren
 			--  - yinq - [Y]ank [I]nside [N]ext [Q]uote
 			--  - ci'  - [C]hange [I]nside [']quote
-			require("mini.ai").setup({ n_lines = 500 })
+			-- require("mini.ai").setup({ n_lines = 500 })
 
 			-- Add/delete/replace surroundings (brackets, quotes, etc.)
 			--
