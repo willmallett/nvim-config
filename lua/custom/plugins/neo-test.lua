@@ -23,17 +23,34 @@ return {
 				open = "botright vsplit | vertical resize 80",
 			},
 			adapters = {
+				-- working for all unit tests
 				jest({
 					jestCommand = "npm run unit --",
 					cwd = function(path)
 						return vim.fn.getcwd()
 					end,
-
-					-- Filter directories when searching for test files. Useful in large projects (see Filter directories notes).
 					filter_dir = function(name, rel_path, root)
 						return name ~= "node_modules"
 					end,
+
+					testMatch = {
+						"**/__tests__/**/*.[jt]s?(x)",
+						"**/tests/**/*.[jt]s?(x)",
+						"**/?(*.)+(spec|test).[jt]s?(x)",
+					},
+
+					-- env = {
+					-- 	NODE_ENV = "test",
+					-- },
+					jest_test_discovery = true,
+					args = {
+						"--verbose",
+					},
 				}),
+			},
+
+			discovery = {
+				enabled = true,
 			},
 		})
 	end,
