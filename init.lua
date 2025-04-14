@@ -249,6 +249,8 @@ require("lazy").setup({
 		"tpope/vim-fugitive",
 	},
 
+	"github/copilot.vim",
+
 	"tpope/vim-surround",
 
 	-- NOTE: Plugins can also be added by using a table,
