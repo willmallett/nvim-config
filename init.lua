@@ -184,6 +184,9 @@ require("lazy").setup({
 	"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
 	"MunifTanjim/nui.nvim",
 
+	-- format json:
+	"rhysd/fixjson",
+
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
@@ -818,6 +821,7 @@ require("lazy").setup({
 				--
 				-- You can use 'stop_after_first' to run the first available formatter from the list
 				javascript = { "eslint", "prettierd", "prettier", stop_after_first = true },
+				json = { "fixjson" },
 			},
 		},
 	},
