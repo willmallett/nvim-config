@@ -25,7 +25,7 @@ return {
 			adapters = {
 				-- working for all unit tests
 				jest({
-					jestCommand = "npm run unit --",
+					jestCommand = "npm run spec --",
 					cwd = function(path)
 						return vim.fn.getcwd()
 					end,
