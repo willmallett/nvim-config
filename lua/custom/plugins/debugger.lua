@@ -3,13 +3,19 @@ return {
 
 	dependencies = {
 		"rcarriga/nvim-dap-ui",
+		"theHamsta/nvim-dap-virtual-text",
 	},
 
 	config = function()
 		local dap = require("dap")
 		local dapui = require("dapui")
+		local dapvt = require("nvim-dap-virtual-text")
 
 		dapui.setup()
+		dapvt.setup({
+			commented = false,
+			virt_text_pos = "inline",
+		})
 
 		-- Install js-dubugger manually: https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#vscode-js-debug
 		-- I extracted it to the ~/dev-tools dir
@@ -46,19 +52,19 @@ return {
 		vim.keymap.set("n", "<Leader>dc", function()
 			dap.continue()
 		end)
-		vim.keymap.set("n", "<Leader>do", function()
+		vim.keymap.set("n", "<Leader>o", function()
 			dap.step_over()
 		end)
-		vim.keymap.set("n", "<Leader>di", function()
+		vim.keymap.set("n", "<Leader>i", function()
 			dap.step_into()
 		end)
-		vim.keymap.set("n", "<Leader>dO", function()
+		vim.keymap.set("n", "<Leader>O", function()
 			dap.step_out()
 		end)
-		vim.keymap.set("n", "<Leader>b", function()
+		vim.keymap.set("n", "<Leader>db", function()
 			dap.toggle_breakpoint()
 		end)
-		vim.keymap.set("n", "<Leader>B", function()
+		vim.keymap.set("n", "<Leader>dB", function()
 			dap.set_breakpoint()
 		end)
 		vim.keymap.set("n", "<Leader>lp", function()
