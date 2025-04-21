@@ -27,12 +27,15 @@ return {
 				jest({
 					jestCommand = "npm run spec --",
 					cwd = function(path)
+						-- Adjust current working directory based on the test location
+						if string.match(path, "acceptance") then
+							return vim.fn.fnamemodify(path, ":p:h")
+						end
 						return vim.fn.getcwd()
 					end,
 					filter_dir = function(name, rel_path, root)
 						return name ~= "node_modules"
 					end,
-
 					testMatch = {
 						"**/__tests__/**/*.[jt]s?(x)",
 						"**/tests/**/*.[jt]s?(x)",

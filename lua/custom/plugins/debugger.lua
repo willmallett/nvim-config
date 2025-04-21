@@ -15,6 +15,7 @@ return {
 		dapvt.setup({
 			commented = false,
 			virt_text_pos = "eol",
+			virt_text_win_col = 80,
 		})
 
 		-- Install js-dubugger manually: https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#vscode-js-debug
