@@ -15,7 +15,6 @@ return {
 		dapvt.setup({
 			commented = false,
 			virt_text_pos = "eol",
-			virt_text_win_col = 80,
 		})
 
 		-- Install js-dubugger manually: https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#vscode-js-debug
@@ -47,15 +46,27 @@ return {
 			},
 		}
 
-		dap.listeners.after.event_initialized["dapui_config"] = function()
-			dapui.open()
-		end
-		dap.listeners.before.event_terminated["dapui_config"] = function()
-			dapui.close()
-		end
-		dap.listeners.before.event_exited["dapui_config"] = function()
-			dapui.close()
-		end
+		-- dap.listeners.after.event_initialized["dapui_config"] = function()
+		-- 	dapui.open()
+		-- end
+		-- dap.listeners.before.event_terminated["dapui_config"] = function()
+		-- 	dapui.close()
+		-- end
+		-- dap.listeners.before.event_exited["dapui_config"] = function()
+		-- 	dapui.close()
+		-- end
+
+		local dapui_open = false
+
+		vim.keymap.set("n", "<Leader>do", function()
+			if dapui_open then
+				dapui.close()
+				dapui_open = false
+			else
+				dapui.open()
+				dapui_open = true
+			end
+		end, { desc = "Toggle DAP UI" })
 
 		vim.keymap.set("n", "<Leader>dc", function()
 			dap.continue()
@@ -69,10 +80,10 @@ return {
 		vim.keymap.set("n", "<Leader>O", function()
 			dap.step_out()
 		end)
-		vim.keymap.set("n", "<Leader>db", function()
+		vim.keymap.set("n", "<Leader>b", function()
 			dap.toggle_breakpoint()
 		end)
-		vim.keymap.set("n", "<Leader>dB", function()
+		vim.keymap.set("n", "<Leader>B", function()
 			dap.set_breakpoint()
 		end)
 		vim.keymap.set("n", "<Leader>lp", function()
