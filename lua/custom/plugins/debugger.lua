@@ -14,7 +14,7 @@ return {
 		dapui.setup()
 		dapvt.setup({
 			commented = false,
-			virt_text_pos = "inline",
+			virt_text_pos = "eol",
 		})
 
 		-- Install js-dubugger manually: https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#vscode-js-debug
@@ -35,6 +35,13 @@ return {
 				request = "launch",
 				name = "Launch file",
 				program = "${file}",
+				cwd = "${workspaceFolder}",
+			},
+			{
+				type = "pwa-node",
+				request = "attach",
+				name = "Attach to running server",
+				port = 9229, -- Default debugging port
 				cwd = "${workspaceFolder}",
 			},
 		}
@@ -76,6 +83,11 @@ return {
 		vim.keymap.set("n", "<Leader>dl", function()
 			dap.run_last()
 		end)
+
+		-- Run node --inspect index.js to start the server and then attach:
+		vim.keymap.set("n", "<Leader>da", function()
+			dap.run(dap.configurations.javascript[2])
+		end, { desc = "Attach to running server" })
 	end,
 }
 

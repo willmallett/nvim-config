@@ -23,7 +23,7 @@ return {
 				open = "botright vsplit | vertical resize 80",
 			},
 			adapters = {
-				-- working for all unit tests
+				-- working for all unit tests, not acceptance tests in acceptanct dir
 				jest({
 					jestCommand = "npm run spec --",
 					cwd = function(path)
