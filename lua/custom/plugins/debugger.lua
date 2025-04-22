@@ -44,6 +44,17 @@ return {
 				port = 9229, -- Default debugging port
 				cwd = "${workspaceFolder}",
 			},
+
+			-- nextjs debugging: https://stackoverflow.com/questions/78455585/correct-setup-for-debugging-nextjs-app-inside-neovim-with-dap
+			-- put in packag.json script: "dev:debug": "NODE_OPTIONS='--inspect=9230' next dev"
+			{
+				name = "Next.js: debug server-side",
+				type = "pwa-node",
+				request = "attach",
+				port = 9231,
+				skipFiles = { "<node_internals>/**", "node_modules/**" },
+				cwd = "${workspaceFolder}",
+			},
 		}
 
 		-- dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -99,7 +110,12 @@ return {
 		-- Run node --inspect index.js to start the server and then attach:
 		vim.keymap.set("n", "<Leader>da", function()
 			dap.run(dap.configurations.javascript[2])
-		end, { desc = "Attach to running server" })
+		end, { desc = "[A]ttach to running server" })
+
+		-- Next.js specific attach (port 9230)
+		vim.keymap.set("n", "<Leader>dn", function()
+			dap.run(dap.configurations.javascript[3])
+		end, { desc = "Attach to [N]ext.js server" })
 	end,
 }
 
