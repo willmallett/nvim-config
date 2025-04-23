@@ -29,33 +29,44 @@ return {
 			},
 		}
 
-		dap.configurations.javascript = {
-			{
-				type = "pwa-node",
-				request = "launch",
-				name = "Launch file",
-				program = "${file}",
-				cwd = "${workspaceFolder}",
-			},
-			{
-				type = "pwa-node",
-				request = "attach",
-				name = "Attach to running server",
-				port = 9229, -- Default debugging port
-				cwd = "${workspaceFolder}",
-			},
+		for _, language in ipairs({ "typescript", "javascript", "javascriptreact" }) do
+			dap.configurations[language] = {
+				{
+					type = "pwa-node",
+					request = "launch",
+					name = "Launch file",
+					program = "${file}",
+					cwd = "${workspaceFolder}",
+				},
 
-			-- nextjs debugging: https://stackoverflow.com/questions/78455585/correct-setup-for-debugging-nextjs-app-inside-neovim-with-dap
-			-- put in packag.json script: "dev:debug": "NODE_OPTIONS='--inspect=9230' next dev"
-			{
-				name = "Next.js: debug server-side",
-				type = "pwa-node",
-				request = "attach",
-				port = 9231,
-				skipFiles = { "<node_internals>/**", "node_modules/**" },
-				cwd = "${workspaceFolder}",
-			},
-		}
+				-- server side debugging:
+				{
+					type = "pwa-node",
+					-- attach to an already running node process with --inspect flag
+					request = "attach",
+					name = "Attach debugger to existing `node --inspect` process",
+					-- allows us to pick the process using a picker
+					-- processId = require("dap.utils").pick_process,
+					-- For typescript:
+					-- sourceMaps = true,
+					-- resolve source maps in nested locations while ignoring node_modules
+					-- resolveSourceMapLocations = { "${workspaceFolder}/**", "!**/node_modules/**" },
+					port = 9229, -- Default debugging port
+					cwd = "${workspaceFolder}",
+				},
+
+				-- nextjs debugging: https://stackoverflow.com/questions/78455585/correct-setup-for-debugging-nextjs-app-inside-neovim-with-dap
+				-- put in packag.json script: "dev:debug": "NODE_OPTIONS='--inspect=9230' next dev"
+				{
+					name = "Next.js: debug server-side",
+					type = "pwa-node",
+					request = "attach",
+					port = 9231,
+					skipFiles = { "<node_internals>/**", "node_modules/**" },
+					cwd = "${workspaceFolder}",
+				},
+			}
+		end
 
 		-- dap.listeners.after.event_initialized["dapui_config"] = function()
 		-- 	dapui.open()
@@ -97,9 +108,9 @@ return {
 		vim.keymap.set("n", "<Leader>B", function()
 			dap.set_breakpoint()
 		end)
-		vim.keymap.set("n", "<Leader>lp", function()
-			dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-		end)
+		-- vim.keymap.set("n", "<Leader>lp", function()
+		-- 	dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+		-- end)
 		vim.keymap.set("n", "<Leader>dr", function()
 			dap.repl.open()
 		end)
@@ -118,45 +129,3 @@ return {
 		end, { desc = "Attach to [N]ext.js server" })
 	end,
 }
-
--- return {
--- 	"mfussenegger/nvim-dap",
---
--- 	dependencies = {
--- 		-- Add your own debuggers here
--- 		-- lang specific
--- 		-- "leoluz/nvim-dap-go",
---
--- 		-- Creates a beautiful debugger UI
--- 		"rcarriga/nvim-dap-ui",
---
--- 		-- Allows you to see variables in the editor
--- 		"theHamsta/nvim-dap-virtual-text",
---
--- 		-- Required dependency for nvim-dap-ui
--- 		"nvim-neotest/nvim-nio",
---
--- 		-- Installs the debug adapters for you
--- 		"williamboman/mason.nvim",
--- 		"jay-babu/mason-nvim-dap.nvim",
--- 	},
---
--- 	config = function()
--- 		local mason_dap = require("mason-nvim-dap")
--- 		local dap = require("dap")
--- 		local ui = require("dapui")
--- 		local dap_virtual_text = require("nvim-dap-virtual-text")
---
--- 		dap_virtual_text.setup()
---
--- 		mason_dap.setup({
--- 			ensure_installed = { "cppdbg" },
--- 			automatic_installation = true,
--- 			handlers = {
--- 				function(config)
--- 					require("mason-nvim-dap").default_setup(config)
--- 				end,
--- 			},
--- 		})
--- 	end,
--- }
