@@ -29,6 +29,16 @@ return {
 			},
 		}
 
+		dap.adapters["pwa-chrome"] = {
+			type = "server",
+			host = "localhost",
+			port = "${port}",
+			executable = {
+				command = "node",
+				args = { "/Users/mallet/dev-tools/js-debug/src/dapDebugServer.js", "${port}" },
+			},
+		}
+
 		for _, language in ipairs({ "typescript", "javascript", "javascriptreact" }) do
 			dap.configurations[language] = {
 				{
@@ -64,6 +74,18 @@ return {
 					port = 9231,
 					skipFiles = { "<node_internals>/**", "node_modules/**" },
 					cwd = "${workspaceFolder}",
+				},
+
+				-- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript-chrome
+				-- Local debugging
+				{
+					name = "Next.js: debug client-side",
+					type = "pwa-chrome",
+					request = "launch",
+					url = "http://localhost:3001", -- Matches the port in npm script
+					webRoot = "${workspaceFolder}",
+					sourceMaps = true,
+					skipFiles = { "node_modules/**" },
 				},
 			}
 		end
@@ -119,13 +141,14 @@ return {
 		end)
 
 		-- Run node --inspect index.js to start the server and then attach:
-		vim.keymap.set("n", "<Leader>da", function()
-			dap.run(dap.configurations.javascript[2])
-		end, { desc = "[A]ttach to running server" })
-
-		-- Next.js specific attach (port 9230)
-		vim.keymap.set("n", "<Leader>dn", function()
-			dap.run(dap.configurations.javascript[3])
-		end, { desc = "Attach to [N]ext.js server" })
+		-- Can just <Leader>dc to pick the adapter to attach to
+		-- vim.keymap.set("n", "<Leader>da", function()
+		-- 	dap.run(dap.configurations.javascript[2])
+		-- end, { desc = "[A]ttach to running server" })
+		--
+		-- -- Next.js specific attach (port 9230)
+		-- vim.keymap.set("n", "<Leader>dn", function()
+		-- 	dap.run(dap.configurations.javascript[3])
+		-- end, { desc = "Attach to [N]ext.js server" })
 	end,
 }
