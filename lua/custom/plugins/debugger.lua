@@ -62,7 +62,7 @@ return {
 			},
 		}
 
-		for _, language in ipairs({ "typescript", "javascript", "javascriptreact" }) do
+		for _, language in ipairs({ "typescript", "javascript", "javascriptreact", "typescriptreact" }) do
 			dap.configurations[language] = {
 				{
 					type = "pwa-node",

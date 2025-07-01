@@ -119,8 +119,19 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 vim.keymap.set("n", "<leader>lp", "<cmd>cprev<CR>", {})
 vim.keymap.set("n", "<leader>ln", "<cmd>cnext<CR>", {})
 
+-- [[ Buffer Management ]]
 -- close buffer
 vim.keymap.set("n", "<leader>x", "<cmd>bdelete<CR>", {})
+-- tab (buffer) navigation
+vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
+-- Move buffers around
+vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer left" })
+vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineMoveNext<CR>", { desc = "Move buffer right" })
+-- Pick buffer
+vim.keymap.set("n", "<leader>bb", "<cmd>BufferLinePick<CR>", { desc = "Pick buffer" })
+-- close other buffers
+vim.keymap.set("n", "<leader>bo", "<cmd>BufferLineCloseOthers<CR>", { desc = "Close other buffers" })
 
 -- NOTE: Some terminals have coliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -186,6 +197,21 @@ require("lazy").setup({
 
 	-- format json:
 	"rhysd/fixjson",
+
+	{
+		"akinsho/bufferline.nvim",
+		version = "*",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("bufferline").setup({
+				options = {
+					mode = "buffers",
+					diagnostics = "nvim_lsp",
+					separator_style = "slant",
+				},
+			})
+		end,
+	},
 
 	{
 		"ThePrimeagen/harpoon",
@@ -444,11 +470,26 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>gf", builtin.git_files, {})
 			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
 			-- vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+			-- vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+
+			vim.keymap.set("n", "<leader>sg", function()
+				builtin.live_grep({
+					additional_args = function()
+						return { "--hidden" }
+					end,
+				})
+			end, { desc = "[S]earch by [G]rep (including hidden files)" })
+
 			vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+			-- vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set(
+				"n",
+				"<leader><leader>",
+				"<cmd>Telescope buffers sort_mru=true<CR>",
+				{ desc = "Open buffers" }
+			)
 
 			vim.keymap.set("n", "<leader>sw", function()
 				local word = vim.fn.expand("<cword>")
@@ -823,8 +864,8 @@ require("lazy").setup({
 				-- python = { "isort", "black" },
 				--
 				-- You can use 'stop_after_first' to run the first available formatter from the list
-				javascript = { "eslint_d", "prettierd", "prettier" },
-				-- javascript = { "eslint_d", "prettierd", "prettier", stop_after_first = true },
+				javascript = { "eslint_d", "prettierd", "prettier", stop_after_first = true },
+				-- javascript = { "eslint_d", "prettierd", "prettier" },
 				javascriptreact = { "eslint_d", "prettierd", "prettier" },
 				json = { "fixjson" },
 			},
@@ -851,12 +892,12 @@ require("lazy").setup({
 					-- `friendly-snippets` contains a variety of premade snippets.
 					--    See the README about individual language/framework/plugin snippets:
 					--    https://github.com/rafamadriz/friendly-snippets
-					-- {
-					--   'rafamadriz/friendly-snippets',
-					--   config = function()
-					--     require('luasnip.loaders.from_vscode').lazy_load()
-					--   end,
-					-- },
+					{
+						"rafamadriz/friendly-snippets",
+						config = function()
+							require("luasnip.loaders.from_vscode").lazy_load()
+						end,
+					},
 				},
 			},
 			"saadparwaiz1/cmp_luasnip",
@@ -944,6 +985,14 @@ require("lazy").setup({
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "nvim_lsp_signature_help" },
+				},
+			})
+
+			-- Set up vim dadbod completion for sql files
+			cmp.setup.filetype({ "sql" }, {
+				sources = {
+					{ name = "vim-dadbod-completion" },
+					{ name = "buffer" },
 				},
 			})
 		end,
