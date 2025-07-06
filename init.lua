@@ -133,6 +133,10 @@ vim.keymap.set("n", "<leader>bb", "<cmd>BufferLinePick<CR>", { desc = "Pick buff
 -- close other buffers
 vim.keymap.set("n", "<leader>bo", "<cmd>BufferLineCloseOthers<CR>", { desc = "Close other buffers" })
 
+-- keep what I had copied if paste
+-- xnoremap("<leader>p", "\"_dp")
+vim.keymap.set("v", "<leader>p", '"_dP', { desc = "Paste without replacing the default register" })
+
 -- NOTE: Some terminals have coliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
@@ -281,6 +285,8 @@ require("lazy").setup({
 	"github/copilot.vim",
 
 	"tpope/vim-surround",
+
+	"sindrets/diffview.nvim",
 
 	-- NOTE: Plugins can also be added by using a table,
 	-- with the first argument being the link and the following
