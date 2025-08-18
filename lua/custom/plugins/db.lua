@@ -18,6 +18,7 @@ return {
 		init = function()
 			-- Your DBUI configuration
 			vim.g.db_ui_use_nerd_fonts = 1
+			vim.g.dadbod_ui_execute_on_save = false
 		end,
 	},
 	"kristijanhusak/vim-dadbod-completion",
