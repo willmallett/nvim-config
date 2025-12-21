@@ -59,7 +59,7 @@ vim.opt.splitbelow = true
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
-vim.opt.list = false
+vim.opt.list = false -- no whitespace chars
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
@@ -250,9 +250,78 @@ require("lazy").setup({
 				options = {
 					mode = "buffers",
 					diagnostics = "nvim_lsp",
-					separator_style = "slant",
+					separator_style = "thin", -- "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
 				},
 			})
+		end,
+	},
+
+	{
+		"goolord/alpha-nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			local alpha = require("alpha")
+			local dashboard = require("alpha.themes.dashboard")
+
+			-- ASCII art header
+			-- dashboard.section.header.val = {
+			-- 	"        .    _    +     .  ______   .          .",
+			-- 	"  (      /|\\      .    |      \\      .   +",
+			-- 	"      . |||||     _    | |   | | ||         .",
+			-- 	" .      |||||    | |  _| | | | |_||    .",
+			-- 	"    /\\  ||||| .  | | |   | |      |       .",
+			-- 	" __||||_|||||____| |_|_____________\\__________",
+			-- 	". |||| |||||  /\\   _____      _____  .   .",
+			-- 	"  |||| ||||| ||||   .   .  .         ________",
+			-- 	" . \\|`-'|||| ||||    _______       _______  .",
+			-- 	"    \\__ |||| ||||      .    .         .     .",
+			-- 	" __    ||||`-'|||  .       .    _________",
+			-- 	" .    . |||| ___/  ___________             .",
+			-- 	"   . _ ||||| . _               .   _________",
+			-- 	" _   ___|||||__  _ \\--//    .    /",
+			-- 	"     _ `---'    .)=\\oo|=(.   _   .",
+			-- 	" _  ^      .  -    . \\/ .  .    ^   _",
+			-- }
+			dashboard.section.header.val = {
+				"                     *",
+				"                    /_\\",
+				"                   /o o\\",
+				"                  /o * o\\",
+				"                 /o *** o\\",
+				"                /o ***** o\\",
+				"               /o ******* o\\",
+				"              /o ********* o\\",
+				"             /o *********** o\\",
+				"            /o ************* o\\",
+				"           /o *************** o\\",
+				"          /o ***************** o\\",
+				"         /o ******************* o\\",
+				"        /o ********************* o\\",
+				"       /o *********************** o\\",
+				"      /o ************************* o\\",
+				"     /o *************************** o\\",
+				"    /o ***************************** o\\",
+				"   /o ******************************* o\\",
+				"  /o ********************************* o\\",
+				" /o*********************************** o\\",
+				"                   |||||",
+				"                   |||||",
+				"                   |||||",
+			}
+
+			-- Buttons with devicons
+			dashboard.section.buttons.val = {
+				dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
+				dashboard.button("f", "󰍉  Find file", ":Telescope find_files<CR>"),
+				dashboard.button("r", "  Recent files", ":Telescope oldfiles<CR>"),
+				dashboard.button("q", "  Quit", ":qa<CR>"),
+			}
+
+			-- Footer
+			dashboard.section.footer.val = "Welcome to Neovim ✨"
+
+			-- Setup
+			alpha.setup(dashboard.opts)
 		end,
 	},
 
@@ -327,15 +396,8 @@ require("lazy").setup({
 
 	"sindrets/diffview.nvim",
 
-	{
-		"MeanderingProgrammer/render-markdown.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-		---@module 'render-markdown'
-		---@type render.md.UserConfig
-		opts = {},
-	},
+	"amadeus/vim-mjml",
+
 	-- NOTE: Plugins can also be added by using a table,
 	-- with the first argument being the link and the following
 	-- keys can be used to configure plugin behavior/loading/etc.

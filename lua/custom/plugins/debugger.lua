@@ -48,6 +48,7 @@ return {
 			port = "${port}",
 			executable = {
 				command = "node",
+				-- Path to your dap debug server
 				args = { "/Users/mallet/dev-tools/js-debug/src/dapDebugServer.js", "${port}" },
 			},
 		}
@@ -58,6 +59,7 @@ return {
 			port = "${port}",
 			executable = {
 				command = "node",
+				-- Path to your dap debug server
 				args = { "/Users/mallet/dev-tools/js-debug/src/dapDebugServer.js", "${port}" },
 			},
 		}
@@ -172,6 +174,10 @@ return {
 		vim.keymap.set("n", "<Leader>dl", function()
 			dap.run_last()
 		end)
+
+		vim.keymap.set("n", "<Leader>K", function()
+			require("dap.ui.widgets").hover()
+		end, { desc = "DAP hover" })
 
 		-- Run node --inspect index.js to start the server and then attach:
 		-- Can just <Leader>dc to pick the adapter to attach to
