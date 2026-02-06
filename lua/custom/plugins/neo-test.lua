@@ -7,12 +7,12 @@ return {
 		"antoinemadec/FixCursorHold.nvim",
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-neotest/neotest-jest",
-		{ "fredrikaverpil/neotest-golang", version = "*" },
+		-- { "fredrikaverpil/neotest-golang", version = "*" },
 	},
 	opts = {},
 
 	config = function(_, opts)
-		local neotest_golang_opts = {}
+		-- local neotest_golang_opts = {}
 		local status_ok, neotest = pcall(require, "neotest")
 		if not status_ok then
 			return
@@ -52,7 +52,7 @@ return {
 						"--verbose",
 					},
 				}),
-				require("neotest-golang")(neotest_golang_opts),
+				-- require("neotest-golang")(neotest_golang_opts),
 			},
 
 			discovery = {

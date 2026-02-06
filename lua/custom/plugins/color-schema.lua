@@ -9,19 +9,19 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 return {
 
-	-- "catppuccin/nvim",
-	-- name = "catppuccin",
-	-- priority = 1000,
-	-- config = function()
-	-- 	require("catppuccin").setup({
-	-- 		flavour = "mocha", -- Choose your preferred flavor: latte, frappe, macchiato, mocha
-	-- 		integrations = {
-	-- 			alpha = true, -- enable Catppuccin styling for alpha dashboard
-	-- 		},
-	-- 		transparent_background = true,
-	-- 	})
-	-- 	vim.cmd.colorscheme("catppuccin")
-	-- end,
+	"catppuccin/nvim",
+	name = "catppuccin",
+	priority = 1000,
+	config = function()
+		require("catppuccin").setup({
+			flavour = "mocha", -- Choose your preferred flavor: latte, frappe, macchiato, mocha
+			integrations = {
+				alpha = true, -- enable Catppuccin styling for alpha dashboard
+			},
+			-- transparent_background = true,
+		})
+		vim.cmd.colorscheme("catppuccin")
+	end,
 
 	-- "folke/tokyonight.nvim",
 	-- priority = 1000, -- Make sure to load this before all the other start plugins.
@@ -198,18 +198,18 @@ return {
 	--     require('nordic').load()
 	-- end
 
-	"sainnhe/gruvbox-material",
-	name = "gruvbox-material",
-	priority = 1000,
-	config = function()
-		-- optional: set some globals before loading
-		vim.g.gruvbox_material_background = "medium" -- options: 'soft', 'medium', 'hard'
-		vim.g.gruvbox_material_foreground = "material" -- options: 'material', 'mix', 'original'
-		vim.g.gruvbox_material_enable_bold = 1
-		vim.g.gruvbox_material_enable_italic = 1
-		vim.g.gruvbox_material_transparent_background = 0
-		vim.cmd.colorscheme("gruvbox-material")
-	end,
+	-- "sainnhe/gruvbox-material",
+	-- name = "gruvbox-material",
+	-- priority = 1000,
+	-- config = function()
+	-- 	-- optional: set some globals before loading
+	-- 	vim.g.gruvbox_material_background = "medium" -- options: 'soft', 'medium', 'hard'
+	-- 	vim.g.gruvbox_material_foreground = "material" -- options: 'material', 'mix', 'original'
+	-- 	vim.g.gruvbox_material_enable_bold = 1
+	-- 	vim.g.gruvbox_material_enable_italic = 1
+	-- 	vim.g.gruvbox_material_transparent_background = 0
+	-- 	vim.cmd.colorscheme("gruvbox-material")
+	-- end,
 
 	-- "rose-pine/neovim",
 	-- name = "rose-pine",

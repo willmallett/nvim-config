@@ -15,8 +15,14 @@ return {
 	},
 	opts = {
 		filesystem = {
+			-- Prevent large nested directories from freezing neovim
+			use_libuv_file_watcher = true,
+			async_directory_scan = "always",
+			scan_mode = "shallow",
+
+			-- Fill the whole buffer with the tree
 			window = {
-				position = "right",
+				position = "current",
 				mappings = {
 					["\\"] = "close_window",
 				},
@@ -25,3 +31,4 @@ return {
 		},
 	},
 }
+
